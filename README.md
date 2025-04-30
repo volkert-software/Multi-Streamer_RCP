@@ -232,7 +232,7 @@ In the following a chronological order of needed steps are listed to start an ad
 * **send the request**: The client starts the action with a **"add network input"** message, which contains the following parameters:
   * **url**:  This is a pure string containing the full address from where the stream should be pulled.
   * **network protocol parameters**: Additional parameters (e.g., SRT delay) can be given as key-value-pair list.
-  * **demuxer format**: This value can either be "auto" or it can explicitly select a demuxer format.
+  * **demuxer format**: This value can either be "auto" or it can explicitly select a demuxer format. (see appendix B for a list
   * **decoder settings**: The client can instruct the server to activate or ignore video/audio sub streams in the new network input. Moreover, the client can select if the server should use software or hardware based video decoding by selecting a gpu.
 * **wait for response*: A server instance responds to each **"add network input"** message with a **"add input response"** message. The client needs to parse it and extract the result code (see appendix A for a list) from it.
 * **process response**: The **"add input response"** message contains besides the result code also the UUID of the created input at server side (if the action was successful). This ID can later be used to trigger further actions (e.g., to add outputs to this created input).
@@ -291,7 +291,7 @@ The following list gives an overview about the most important result codes:
 </code>
 
 # Appendix B: (de-)muxer formats
-VASE as well as Multi-Streamer supports the following formats for demuxing and muxing:
+VASE as well as Multi-Streamer support the following formats for demuxing and muxing:
 <code>
 
         AUTO      = 0
