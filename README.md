@@ -4,14 +4,14 @@ Multi-Streamer -- Remote Control Protocol
 In the following you find an overview about the main concept and technical details how each Multi-Streamer instance (both the command line and the graphical version) can be observed as well as manipulated from a distant PC/server via a designated protocol. This protocol consists of special messages and timeout specifications which both are part of each running Multi-Streamer instance.
 
 # 1. Core concept
-* **Client/Server**: The remote control protocol is based  on a classical client-server architecture. The role of a **client** is to observe/control the resources (devices, streams, statistics, ..) located on the **server** side during a remote control season. Each of these season has a defined start and end time point. But there can always be multiple seasons running so that a server instance handles multiple clients at the same time while keeping its internal data always in a consistent state.
-* **Auto Detection**: All running server instances in a LAN can be detected by local potential clients in almost real-time. For this purpose, the remote control protocol contains so-called **"beacon"** messages which are periodically sent by each server instance and are catched by local clients. Such a message contains all neccessarry data to start a new remote control session with the corresponding server.
-* **Periodic Reports**: As soon as a client has started successfully a new remote control session with a server, the server starts to send periodic reports towards the client containing an overview about all server-side available devices, input streams and corresponding output streams. With this data a client creates and maintains its own overview about the status of the reporting server.
+* **Client/Server**: The remote control protocol is based  on a classical client-server architecture and uses TCP for communication. The role of a **client** is to observe/control the resources (devices, streams, statistics, ..) located on the **server** side during a remote control session. Each of these season has a defined start and end time point. But there can always be multiple seasons running so that a server instance handles multiple clients at the same time while keeping its internal data always in a consistent state.
+* **Auto Detection**: All running server instances in a LAN can be detected by local potential clients in almost real-time. For this purpose, the remote control protocol contains so-called **"beacon"** messages which are periodically sent by each server instance via UDP and are received by local clients. Such a message contains all neccessarry data to start a new remote control session with the corresponding server.
+* **Periodic Reports**: As soon as a client has successfully started a new remote control session with a server, the server starts to send periodic reports towards the client containing an overview about all server-side available devices, input streams and corresponding output streams. With this data a client creates and maintains its own overview about the status of the reporting server.
 * **Request/Response**: The remote control protocol supports "actions". For example, a client can instruct a server to **add** or **remove inputs**. The same is possible for outputs. Each of these actions consists of a **request** message, which is send from a client to the server, and a subsequent **response** message, wich is send from the server to the client in return. The request describes the desired action and the response transmits the action result from the server to the client. Subsequently, the periodic reports inform all clients about server internal changes.
 
 # 2. Protocol packets
 * **Structure**: Each packet of the remote control protocol consists of a small proprietary header with a fixed size of different elements, followed by a Google Protobuf data block with variable length. The following gives a detailed overview about the general structure of each message.
- 
+
 <pre>
 
        0                   1                   2                   3
@@ -37,24 +37,24 @@ In the following you find an overview about the main concept and technical detai
       +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
       |                    Serialized Payload Data                    |
       +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
- </pre> 
- 
+ </pre>
+
 ## 2.1 Packet elements
+All the following elements are stored in network byte order within a protocol packet:
 * **V** and **S**: This is a "magic code" to identify a protocol related packet. Although this is not 100% safe, it is better than having nothing to differentiate the remote control protcol from other transmissions.
-* **Type**: With this element the general message type is selected. Possible values range from 0 to 65535. 
+* **Type**: With this element the general message type is selected. Possible values range from 0 to 65535.
 * **Version**: Since a protocol may vary over the years, this message lement is needed to differentiate between the different versions of the applied protocol definition. The current version is 0x12, which represents version "1.2".
-* **Transaction Id**: Whenever a client triggers an action a transaction in the server is started. Both the request and the response contain in this case the same transaction ID. Based on this, a client can for each received response identify the corresponding request itself sent before.
+* **Transaction Id**: Whenever a client triggers an action a transaction in the server is started. Both the request and the response contain in this case the same transaction ID. Based on this, a client can for each received response identify the corresponding request itself has sent before.
 * **Sender Id**: This is a unique ID (typically a UUID) which exists for each sender in the network. Each message sender (both clients and servers) creates an own ID during its startup and use it for all outgoing messages. Based on this ID, a sender can be clearly identified. Also a returning sender or a sender visible via 2 or more network interfaces can be clearly identified as the same one.
 * **Overall Payload Size**: A transmitted Google Protobuf message can be split into multiple network packets where each packet transports one single message fragment. This value represents the overall size of the resulting Google Protobuf message.
-* **Fragment Payload Offset**: To be able to reconstruct the original Google Protobuf message at receiver side each fragment needs be clearly identified within the overall message. For this purpose, this element contains the offset from the start in the original message.
-* **Fragment Payload Size**: This element contains the size of the fragment and can be combined with the previous offset value in order to find the correct point where the transmitted fragment belongs to. With the help of these two values the original Google Protobuf message can be reconstructed and processed at receiver side.
+* **Fragment Payload Offset**: To be able to reconstruct the original Google Protobuf message at receiver side each fragment needs be clearly identified within the overall message. For this purpose, this element contains the offset from the start in the original message. For small messages (which do not demand for TCP packets bigger than 64 kB), this value can be 0.
+* **Fragment Payload Size**: This element contains the size of the fragment and can be combined with the previous offset value in order to find the correct point where the transmitted fragment belongs to. With the help of these two values the original Google Protobuf message can be reconstructed and processed at receiver side. For small messages (which do not demand for TCP packets bigger than 64 kB), this value can be equal to the **Overall Payload Size**.
 * **Serialized Payload Data**: These bytes contain the actual fragment data which is used to reconstruct the original Google Protobuf message.
-
 
 ## 2.2 "Type"
 Like all streaming products from Volkert Software also Multi-Streamer uses internally the core library VASE ("Video Audio Stream Environment"). Due to this fact, the supported values for the "type" element are split into general VASE related ones and specialized Multi-Streamer specific ones. The boundary value between both ranges is 0x8000. The following lists all suppported values. Further details of the corresponding Google Protobuf message can be found in the individual "*.proto" file.
 
-## 2.2.1 VASE related values
+### 2.2.1 VASE related values
 <code>
 
         SERVER_BEACON                                  = 0x01
@@ -168,7 +168,7 @@ Like all streaming products from Volkert Software also Multi-Streamer uses inter
         REMOVE_SERVER_SESSION_RESPONSE                 = 0x551
 </code>
 
-## 2.2.2 Multi-Streamer specific values
+### 2.2.2 Multi-Streamer specific values
 
 <code>
 
@@ -221,9 +221,10 @@ The following list contains a chronologically sorted list of the needed steps:
 
 # 4. Starting a remote control session
 A new session from a client to a server is started from the client side as follows:
-* **starting TCP connection**: For each remote control session a central TCP connection between client and server is needed. The client needs to keep the connection valid as long as the remote control session is used. For the initial TCP connect attempts the client needs to know the management port of the server (see 3.).
+* **starting TCP connection**: For each remote control session a central TCP connection between client and server is needed. The client needs to keep the connection valid as long as the remote control session is used. For the initial TCP connect attempts the client needs to know the management port number of the server. This can either be done with the steps of section 3 or by an out-of-band signaling (e.g., the user already knows under which IP address and port number the desired remote control service is reachable across the Internet).
 * **log in to the control service**: In order to have a usable remote control session, a client needs to transmit to the server the central service password to activate access permission to all server internal data and be enabled to control inputs as well as outputs. For this purpose, the client sends a **"login"** message containing the password.
 * **wait for response**: A server instance responds to each **"login"** message with a **"login response"** message. The client needs to parse it and extract the result code (see appendix A for a list) from it.
+If the log-in procedure was successful, a client is enabled to trigger several actions on the server. However, the remote control protocol does not specify that a server responds in the same order as requests were sent. For this purpose, the packet structure contains the element **transaction ID**, which can be used by a client to identify the originally sent request for each received response.
 
 # 5. Example: add a network input
 In the following a chronological order of needed steps are listed to start an additional network input at server side:
@@ -234,7 +235,7 @@ In the following a chronological order of needed steps are listed to start an ad
   * **network protocol parameters**: Additional parameters (e.g., SRT delay) can be given as key-value-pair list.
   * **demuxer format**: This value can either be "auto" or it can explicitly select a demuxer format. (see appendix B for a list
   * **decoder settings**: The client can instruct the server to activate or ignore video/audio sub streams in the new network input. Moreover, the client can select if the server should use software or hardware based video decoding by selecting a gpu.
-* **wait for response*: A server instance responds to each **"add network input"** message with a **"add input response"** message. The client needs to parse it and extract the result code (see appendix A for a list) from it.
+* **wait for response**: A server instance responds to each **"add network input"** message with a **"add input response"** message. The client needs to parse it and extract the result code (see appendix A for a list) from it.
 * **process response**: The **"add input response"** message contains besides the result code also the UUID of the created input at server side (if the action was successful). This ID can later be used to trigger further actions (e.g., to add outputs to this created input).
 
 # Appendix A: VASE result codes
