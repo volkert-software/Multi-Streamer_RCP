@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+import "MsgVideoDeviceSetting.proto";
+import "MsgInputDeviceAudioStreamChannelMappings.proto";
+
+message MsgAddDeckLinkDeviceCapturingInput {
+    string DeviceId = 1;
+    int32 VideoConnection = 2;
+    MsgVideoDeviceSetting VideoDeviceSetting = 3;
+    int32 ColorDepth = 4;
+    map<int32, MsgInputDeviceAudioStreamChannelMappings> InputStreamAudioChannelsMappings = 5;
+
+    map<string, string> AppStateValues = 7;
+}

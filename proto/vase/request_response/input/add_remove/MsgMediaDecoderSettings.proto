@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgMediaDecoderSettings {
+    bool VideoStreamActive = 1; // 0: inactive, 1: active
+    bool AudioStreamActive = 2; // 0: inactive, 1: active
+    int32 VideoAccelerator = 3; // -1: inactive, 0: first found gpu, 1: second found gpu
+}

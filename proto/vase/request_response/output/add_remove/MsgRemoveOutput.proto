@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgRemoveOutput {
+    string SinkId = 1;
+    string Url = 2;
+}

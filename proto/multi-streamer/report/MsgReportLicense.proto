@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package MultiStreamerLicenseInfrastructure;
+
+message MsgReportLicense {
+    bool IsUsingTrialLicense = 1;
+    bool IsTrialLicenseExpired = 2;
+    bool IsUsingTestLicense = 3;
+    int32 RemainingTrialTime = 4;
+    int32 MaximumTrialTime = 5;
+    repeated int32 ActiveFeatures = 6;
+    int32 LicenseType = 7;
+    int64 LicenseId = 8;
+}

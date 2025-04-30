@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgFsBrowseDirectory {
+    string Path = 1;
+    bool ListOnlyDirectories = 2;
+    int32 SortCriterion = 3;
+    int32 SortDirection = 4;
+}
+
+message MsgFileSystemEntry {
+    string Name = 1;
+    optional string Description = 2;
+    uint64 Size = 3;
+    int32 SubType = 4;
+    int64 LastModTime = 5;
+}
+
+message MsgFsBrowseDirectoryResponse {
+    repeated MsgFileSystemEntry FileSystemEntries = 1;
+}

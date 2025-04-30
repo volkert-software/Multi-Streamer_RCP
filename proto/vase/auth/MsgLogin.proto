@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgLogin {
+    string Password = 1;
+}
+
+message MsgLoginResponse {
+    int32 VaseResult = 1;
+}

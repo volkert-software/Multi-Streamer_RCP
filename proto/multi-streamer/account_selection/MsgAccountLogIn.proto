@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package MultiStreamerLicenseInfrastructure;
+
+message MsgAccountLogIn {
+    string Email = 1;
+    string Password = 2;
+	string SessionIdentifier = 3;
+}

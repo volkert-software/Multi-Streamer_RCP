@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgInputPlaybackSetPreBufferAutoAvoidPlaybackStalling {
+    string SourceId = 1;
+    bool AvoidStalling = 2;
+}

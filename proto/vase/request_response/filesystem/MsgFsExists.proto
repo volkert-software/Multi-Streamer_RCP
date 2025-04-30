@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgFsExists {
+    string Path = 1;
+}
+
+message MsgFsExistsResponse {
+    bool Exists = 1;
+}

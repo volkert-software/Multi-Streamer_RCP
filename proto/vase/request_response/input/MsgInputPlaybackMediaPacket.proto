@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgInputPlaybackMediaPacket {
+    string SourceId = 1;
+    int32 StreamId = 2;
+    int32 MediaType = 3;
+    int64 Pts = 4;
+    int64 Dts = 5;
+    int32 DataSize = 6;
+    bytes Data = 7;
+}

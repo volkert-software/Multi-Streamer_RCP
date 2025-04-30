@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgVideoDeviceSetting {
+    int32 OriginX = 1;
+    int32 OriginY = 2;
+    int32 Width = 3;
+    int32 Height = 4;
+    double Fps = 5;
+    int32 Pixelformat = 6;
+    int32 VideoScanMethd = 7;
+}

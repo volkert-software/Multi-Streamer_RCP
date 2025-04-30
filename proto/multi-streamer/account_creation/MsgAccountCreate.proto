@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package MultiStreamerLicenseInfrastructure;
+
+message MsgAccountCreate {
+	string Email = 1;
+	string CreationCcode = 2;
+	string Name = 3;
+	string Address = 4;
+	string Password = 5;
+}

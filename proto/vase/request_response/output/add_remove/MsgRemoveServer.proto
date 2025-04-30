@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgRemoveServer {
+    string ServerId = 1;
+}

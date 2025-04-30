@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgInputSeekToPosition {
+    string SourceId = 1;
+    double Position = 2;
+}
+
+message MsgInputSeekToPositionResponse {
+    int32 VaseResult = 1;
+}

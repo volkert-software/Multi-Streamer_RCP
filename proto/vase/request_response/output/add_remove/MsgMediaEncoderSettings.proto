@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+enum VideoBitrateControlAlgorithm {
+    VBR = 0;
+    CBR = 1;
+}
+
+message MsgMediaEncoderVideoSettings {
+	int32 StreamId = 1;
+    int32 VideoCodec = 2;
+    int32 VideoCodecFeatureProfile = 3;
+    int32 Width = 4;
+    int32 Height = 5;
+    int32 VideoBitrateMin = 6;
+    int32 VideoBitrate = 7;
+    int32 VideoBitrateMax = 8;
+    int32 VideoBitrateCtrlBufferSize = 9;
+    int32 VideoBitrateCtrlAlgorithm = 10; // VBR = 0, CBR = 1
+    int32 GopSize = 11;
+    float Fps = 12; //TODO: unsued atm
+    int32 VideoAccelerator = 13;
+    int32 MaxBFrames = 14;
+    int32 PixelFormat = 15;
+    int32 VideoStreamQualityProfile = 16;
+	bool EncodedInputFramesCopying = 30;
+}
+
+message MsgMediaEncoderAudioSettings {
+	int32 StreamId = 1;
+    int32 AudioCodec = 2;
+    int32 AudioBitrate = 3;
+    int32 SampleRate = 4;
+    int32 Channels = 5;
+    int32 SampleFormat = 6;
+	bool EncodedInputFramesCopying = 20;
+}
+
+message MsgMediaEncoderSettings {
+    repeated MsgMediaEncoderVideoSettings VideoSettings = 1;
+    repeated MsgMediaEncoderAudioSettings AudioSettings = 2;
+}

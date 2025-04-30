@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgInputDataForwardingSetMuted {
+    string SourceId = 1;
+    bool Muted = 2;
+}

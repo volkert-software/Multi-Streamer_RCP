@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgAudioDeviceSetting {
+    int32 Channels = 1;
+    int32 SampleRate = 2;
+    int32 BytesPerSample = 3;
+    int32 Sampleformat = 4;
+}

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+import "MsgMediaEncoderSettings.proto";
+
+message MsgAddNdiOutput {
+    string SourceId = 1;
+    string NdiName = 2;
+    MsgMediaEncoderSettings MediaEncoderSettings = 3;
+    bool DataForwardingPaused = 4;
+
+    map<string, string> AppStateValues = 7;
+}

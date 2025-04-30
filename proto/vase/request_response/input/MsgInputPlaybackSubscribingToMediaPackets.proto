@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgInputPlaybackSubscribeToMediaPackets {
+    string SourceId = 1;
+    int32 StreamIdNr = 2;
+}
+
+message MsgInputPlaybackUnsubscribeToMediaPackets {
+    string SourceId = 1;
+    int32 StreamIdNr = 2;
+}

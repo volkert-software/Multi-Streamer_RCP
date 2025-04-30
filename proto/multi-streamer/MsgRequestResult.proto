@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package MultiStreamerLicenseInfrastructure;
+
+message MsgRequestResult {
+	int64 Result = 1;
+}

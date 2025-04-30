@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+import "MsgAddDeckLinkDeviceCapturingInput.proto";
+import "MsgAddCorvidKONADeviceCapturingInput.proto";
+import "MsgAddLiveDeviceCapturingInput.proto"; 
+import "MsgAddNdiInput.proto"; 
+import "MsgAddNetworkInput.proto"; 
+import "MsgAddUrlInput.proto";
+
+message AddInput {
+	oneof AddInputUnion {
+	    MsgAddNetworkInput AddNetworkInput = 1;
+	    MsgAddUrlInput AddUrlInput = 2;
+	    MsgAddLiveDeviceCapturingInput AddLiveDeviceCapturingInput = 3;
+	    MsgAddNdiInput AddNdiInput = 4;
+	    MsgAddDeckLinkDeviceCapturingInput AddDeckLinkDeviceCapturingInput = 5;
+	    MsgAddCorvidKONADeviceCapturingInput AddCorvidKONADeviceCapturingInput = 6;
+	} 
+};
+
+message ReconstructInputs {
+    repeated AddInput AddInputs = 1;
+};

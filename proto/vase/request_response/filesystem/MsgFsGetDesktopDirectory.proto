@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgFsGetDesktopDirectory {
+    string Path = 1;
+}
+
+message MsgFsGetDesktopDirectoryResponse {
+    string DesktopDirectory = 1;
+}

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgFsGetWorkingDirectory {
+}
+
+message MsgFsGetWorkingDirectoryResponse {
+    string WorkingDirectory = 1;
+}

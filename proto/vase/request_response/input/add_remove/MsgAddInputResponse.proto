@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgAddInputResponse {
+    string SourceId = 1; // the UUID of the created source
+    int32 VaseResult = 2; // 1: okay, 2: recall needed, -2: undefined error, -3: license error, -4: parameter error, -5: timeout, ..
+}

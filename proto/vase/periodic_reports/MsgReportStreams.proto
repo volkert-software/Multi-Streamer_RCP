@@ -1,0 +1,492 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgCodecParams {
+	enum MediaTypes
+	{
+	    VIDEO = 0;
+	    AUDIO = 1;
+	    SUBTITLE = 2;
+	    TELETEXT = 3;
+	    DATA = 4;
+	    PICTURE = 5;
+	    MULTIMEDIA = 6;
+	}
+	
+	enum VideoScanMethods
+	{
+	    UNKNOWN = 0;
+	    INTERLACED = 1;
+	    PROGRESSIVE = 2;
+	}
+
+    // general
+	MediaTypes MediaType = 1;
+	int32 Codec = 2;
+	string CodecImpl = 3;
+	int64 BitRate = 4;
+	int32 DemuxerStreamTimebaseNum = 5;
+	int32 DemuxerStreamTimebaseDen = 6;
+	int32 TimebaseNum = 7;
+	int32 TimebaseDen = 8;
+	int32 TicksPerFrame = 9;
+	
+	// video
+	int32 VideoWidth = 10;
+	int32 VideoHeight = 11;
+	double VisibleFrameRate = 12;
+	int32 VideoPixelFormat = 13;
+	int32 VideoSarNum = 14;
+	int32 VideoSarDen = 15;
+	int32 VideoCodecFeatureProfile = 16;
+	int32 VideoGopSize = 17;
+    VideoScanMethods VideoScanMethod = 18;
+    int32 ColorRange = 19;
+    int32 ColorPrimaries = 20;
+    int32 ColorTransferCharacteristics = 21;
+    int32 ColorSpace = 22;
+    int32 UsedHardwareAcceleratorIndex = 23;
+    string UsedHardwareAcceleratedVideoAPI = 24;
+    
+	// audio
+	int32 AudioChannels = 31;
+	int32 AudioSampleRate = 32;
+	int32 AudioSampleFormat = 33;
+	string AudioLanguageCode = 34;
+	
+	// teletext
+	string TeletextLanguageCode = 41;
+	
+	int32 CodecMetaDataSize = 100;
+    bytes CodecMetaData = 101;
+}
+
+message MsgMediaInputStreamVolatiles {
+    string SourceId = 1;
+	int32 StreamID = 2;
+	int64 FramesCounter = 3;
+	int64 CurrentPts = 4;
+	double AveragePtsDiff = 5;
+	double AvClockDrift = 6;
+	double RealFrameRate = 7;
+	int64 PacketsDataSize = 8;
+	int64 FramesMissed = 9;
+	double FramesMissRate = 10;
+	bool HasMediaPacketSubscription = 11;
+	
+	int32 DecodingFifoUsage = 20;
+    int64 DecodingFifoDataSize    = 21;	
+}
+
+message MsgMediaDemuxerStream {
+    string SourceId = 1;
+	int32 ProgramNr = 2;
+	int32 MpegtsPid = 3;
+	int32 ContainerStreamId = 4;
+	MsgCodecParams CodecParams = 5;
+}
+
+message MsgMediaDemuxerStreamVolatiles {
+    string SourceId = 1;
+	int32 ContainerStreamId = 2;
+	int64 Packets = 3;
+	double PacketsPerSecond = 4;
+	int64 Bitrate = 5;
+	int64 Dts = 6;
+	double AverageDtsDiff = 7;
+}
+
+message MsgMediaInputStream {
+    string SourceId = 1;
+	int32 ProgramNr = 2;
+	int32 ContainerStreamId = 3;
+	int32 StreamID = 4;
+	MsgCodecParams CodecParams = 5;
+	
+	int64 DecodingFifoDroppedPackets = 10;
+    int64 DecodingFifoMaxDataSize    = 11;	
+}
+
+message MsgMediaProgramStream {
+	int32 ContainerStreamId = 1;
+	int32 StreamID = 2;
+}
+
+message MsgMediaProgram {
+    string SourceId = 1;
+	int32 ProgramNumber = 2;
+	string Name = 3;	
+	int32 Type = 4;
+	
+	repeated MsgMediaProgramStream MediaProgramStream = 5;
+}
+
+message MsgMediaSourcePlaybackVolatiles {
+    string SourceId = 1;
+    
+    int64 PlaybackAVDrift = 2;
+}
+
+message MsgMediaSourcePlayback {
+    string SourceId = 1;
+    
+    bool PlaybackStarted = 2;
+    bool PlaybackPaused = 3;
+    bool PlaybackEndReached = 4;
+    bool PreBufferAutoAvoidPlaybackStallingEngine = 5;
+    int64 PreBufferTime = 6;
+}
+
+message MsgMediaSourceNetworkVolatiles {
+    string SourceId = 1;
+	string NetworkAddress = 2;
+	int32 NetworkPort = 3;
+	string NetworkPeer = 4;
+	int64 Packets = 5;
+	int64 PacketDataSize = 6;
+	int64 PacketsDropped = 7;
+	int64 RtpPacketsLost = 8;
+	double RtpPacketLoss = 10;
+	double PacketRate = 11;
+	int64 PacketAverageSize = 12;
+	int64 PacketDataRate = 13;
+	int64 PacketsBuffered = 14;
+	int64 PacketsBufferSize = 15;
+
+	// SRT - 1
+	int32 SrtRTT = 16;
+	int32 SrtLatency = 17;
+	int32 SrtCryptoLength = 18;
+	int64 SrtPacketsRetransmitted = 9;
+	int64 SrtPacketsLost = 24;
+	int64 SrtOutgoingBitRate = 25;
+	int64 SrtIncomingBitRate = 26;
+	int32 SrtSocketStatus = 29;
+	int32 SrtMemberStatus = 30;
+	
+	// SRT - 2
+	int32 SrtRTT2 = 110;
+	int32 SrtLatency2 = 111;
+	int32 SrtCryptoLength2 = 112;
+	int64 SrtPacketsRetransmitted2 = 113;
+	int64 SrtPacketsLost2 = 114;
+	int64 SrtOutgoingBitRate2 = 115;
+	int64 SrtIncomingBitRate2 = 116;
+	int32 SrtSocketStatus2 = 117;
+	int32 SrtMemberStatus2 = 118;
+
+	int64 PacketsOutput = 19;
+	int64 FirstInPacketTime = 20;
+	int64 LastInPacketTime = 21;
+	int64 FirstOutPacketTime = 22;
+	int64 LastOutPacketTime = 23;
+	string RemoteSoftware = 28;
+}
+
+message MsgKeyValue {
+	string Key = 1;
+	string Value = 2;
+}
+
+message MsgMediaSourceVolatiles {
+    string SourceId = 1;
+	int32 ContainerStreamId = 2;
+	int64 DemuxerAvDtsDrift = 3;
+	double PlaybackFilePos = 4;
+
+    // device specific 
+    int64 CapturedDataChunks = 10;
+    int64 TimeOfFirstCapturedData = 11;
+    int64 TimeOfLastCapturedData = 12;
+    int32 DeviceTemperature = 13;
+    repeated MsgKeyValue CustomDeviceProperties = 14;
+}
+
+message MsgMediaSource {
+    enum InputType {
+        MEDIA_INPUT_UNKNOWN = 0;
+        MEDIA_INPUT_NETWORK = 1;
+        MEDIA_INPUT_LOCAL_FILE = 2;
+        MEDIA_INPUT_REMOTE_FILE = 4;
+        MEDIA_INPUT_DEVICE = 8;
+    }
+
+    string SourceId = 1;
+    string Name = 2;
+    string InputName = 3;
+    string InputUrl = 4;
+    InputType Type = 5;
+    bool SupportsSeeking = 6;
+    bool AllStreamsInitialized = 7;
+    bool VideoOpen = 8;
+    bool AudioOpen = 9;
+    bool DemuxerAvailable = 10;
+    bool DemuxerOpen = 11;
+    int32 DemuxerFormat = 12;
+    string DemuxerImpl = 22;
+    string InputContainerFormat = 13;
+    string InputContainerFormatLong = 14;
+	bool DataForwardingMuted = 15;
+	bool DataForwardingPaused = 16;
+	double InputDuration = 17;
+	bool EndOfInputReached = 18;
+    bool IsSeeking = 19;
+    bool IsClosed = 20;
+   
+    // device specific 
+    string DeviceVendor = 30;
+    string DeviceModel = 31;
+    string DeviceChannel = 32;
+
+    // network specific
+    bool IsTransportValid = 35;
+    bool IsTransportFlowControlled = 36;
+    bool IsTransportConnectionBased = 37;
+    bool IsTransportConnected = 38;
+    bool IsNetworkPullClient = 39;
+    bool IsNetworkListener = 40;
+    // SRT - 1
+    int32 SrtBondingMode = 41;
+    string SrtPeerAddress = 100;
+    int32 SrtPeerPort = 101;
+    string SrtLocalAddress = 102;
+    int32 SrtLocalPort = 103;
+    // SRT - 1
+    string SrtPeerAddress2 = 110;
+    int32 SrtPeerPort2 = 111;
+    string SrtLocalAddress2 = 112;
+    int32 SrtLocalPort2 = 113;    
+
+    MsgMediaSourcePlayback Playback = 48;
+    
+	repeated MsgMediaDemuxerStream MediaDemuxerStreams = 50;  
+	repeated MsgMediaInputStream MediaInputStreams = 80;
+	repeated MsgMediaProgram MediaPrograms = 90;
+}
+
+message MsgMediaEncodingStreamVolatiles {
+    string SinkId = 1;
+	int32 StreamID = 2;
+	
+	int64 OutputPackets              = 3;
+    int64 OutputPacketsDataSize      = 4;
+    int64 CurrentOutputPacketPts     = 5;
+    double AverageOutputPacketsPtsDiff = 6;
+    int64 CurrentOutputPacketDts     = 7;
+    double AverageOutputPacketsDtsDiff = 8;
+    double RealOutputPacketRate        = 9;
+    
+    int64 EncoderFrames              = 10;
+    int64 CurrentEncoderFramePts     = 11;
+    double AverageEncoderFramesPtsDiff = 12;
+    double RealEncoderFrameRate        = 13;
+}
+
+message MsgMediaEncodingStream {
+    string SinkId = 1;
+	int32 InputContainerStreamId = 2;
+	int32 StreamID = 3;
+	MsgCodecParams CodecParams = 4;
+	int32 CodecVideoBitRateControlAlgorithm = 5;
+}
+
+message MsgMediaCopyingStreamVolatiles {
+    string SinkId = 1;
+	int32 StreamID = 2;
+	
+	int64 OutputPackets              = 3;
+    int64 OutputPacketsDataSize      = 4;
+    int64 CurrentOutputPacketPts     = 5;
+    double AverageOutputPacketsPtsDiff = 6;
+    int64 CurrentOutputPacketDts     = 7;
+    double AverageOutputPacketsDtsDiff = 8;
+    double RealOutputPacketRate        = 9;   
+}
+
+message MsgMediaCopyingStream {
+    string SinkId = 1;
+	int32 InputContainerStreamId = 2;
+	int32 StreamID = 3;
+	MsgCodecParams CodecParams = 4;
+}
+
+message MsgMediaMuxer {
+    string SinkId = 1;
+	int32 MuxerId = 2;
+	int32 Format = 3;
+	bool isCopyingInputDataFromTheMediaSource = 4;
+	
+	repeated MsgMediaMuxerStream MediaMuxerStreams = 9;  
+	repeated MsgMediaMuxerOutput MediaMuxerOutputs = 10;
+}
+
+message MsgMediaMuxerStream {
+    string SinkId = 1;
+	int32 MuxerId = 2;
+	int32 ContainerStreamId = 3;
+	MsgCodecParams CodecParams = 4;
+}
+
+message MsgMediaMuxerStreamVolatiles {
+    string SinkId = 1;
+	int32 MuxerId = 2;
+	int32 ContainerStreamId = 3;
+	int64 Packets = 4;
+	double PacketsPerSecond = 5;
+	int64 Bitrate = 6;
+	int64 Dts = 7;
+	double AverageDtsDiff = 8;
+}
+
+message MsgMediaMuxerOutput {
+    string SinkId = 1;
+	int32 MuxerId = 2;
+	int32 OutputId = 3;
+	int32 Type = 4;
+	string Url = 5;
+	string Name = 6;
+	bool IsCallbackBased = 7;
+	bool DataForwardingPaused = 8;
+
+    // device specific 
+    string DeviceVendor = 30;
+    string DeviceModel = 31;
+    string DeviceChannel = 32;
+
+    // network specific
+    bool IsTransportValid = 35;
+    bool IsTransportFlowControlled = 36;
+    bool IsTransportConnectionBased = 37;
+    bool IsTransportConnected = 38;
+	bool BelongsToBroadcastServer = 39;
+    // SRT - 1
+    int32 SrtBondingMode = 99;
+    string SrtPeerAddress = 100;
+    int32 SrtPeerPort = 101;
+    string SrtLocalAddress = 102;
+    int32 SrtLocalPort = 103;
+    // SRT - 1
+    string SrtPeerAddress2 = 110;
+    int32 SrtPeerPort2 = 111;
+    string SrtLocalAddress2 = 112;
+    int32 SrtLocalPort2 = 113;    
+}
+
+message MsgMediaMuxerOutputNetworkVolatiles {
+    int64 OutputPacketsBuffered = 4;
+    int64 OutputPacketsBufferSize = 5;
+    int64 OutputPackets = 6;
+    int64 OutputPacketsLost = 7;
+    int64 OutputPacketsDropped = 8;
+    int64 OutputPacketDataRate = 9;
+    int64 OutputPacketDataRateLongTerm = 10;
+    int64 OutputPacketAverageSize = 11;
+    // SRT - 1
+    int64 SrtRTT = 13;
+    int64 SrtLatency = 14;
+    int64 SrtCryptoLength = 15;
+    int64 SrtPacketsRetransmitted = 12;
+	int64 SrtPacketsLost = 104;
+	int64 SrtOutgoingBitRate = 23;
+	int64 SrtIncomingBitRate = 24;
+	int32 SrtSocketStatus = 29;
+	int32 SrtMemberStatus = 30;
+	// SRT - 2
+	int32 SrtRTT2 = 110;
+	int32 SrtLatency2 = 111;
+	int32 SrtCryptoLength2 = 112;
+	int64 SrtPacketsRetransmitted2 = 113;
+	int64 SrtPacketsLost2 = 114;
+	int64 SrtOutgoingBitRate2 = 115;
+	int64 SrtIncomingBitRate2 = 116;
+	int32 SrtSocketStatus2 = 117;
+	int32 SrtMemberStatus2 = 118;
+	
+    int64 OutputPacketRate = 16;
+    int64 OutputPacketDataSize = 17;
+    int64 InputPackets = 18;
+	int64 FirstInPacketTime = 19;
+	int64 LastInPacketTime = 20;
+	int64 FirstOutPacketTime = 21;
+	int64 LastOutPacketTime = 22;
+	string RemoteSoftware = 26;	
+}
+
+message MsgMediaMuxerOutputDeviceVolatiles {
+    int32 DeviceTemperature = 1;
+    repeated MsgKeyValue CustomDeviceProperties = 2;
+}
+
+message MsgMediaMuxerOutputVolatiles {
+    string SinkId = 1;
+	int32 MuxerId = 2;
+	int32 OutputId = 3;
+	
+	bool IsClosed = 4;
+    int64 WrittenBuffersCounter = 5;
+    int64 WrittenBufferSize = 6;
+    int64 FirstWrittenBufferTime = 7;
+    int64 LastWrittenBufferTime = 8;
+    int64 RunningTime = 9;
+    int32 CritErrCause = 10;
+    int32 CritErrFailedProcess = 11;
+    string CritErrMessage = 12;
+    int64 CritErrTime = 13;
+    
+    optional MsgMediaMuxerOutputNetworkVolatiles MediaNetworkVolatiles = 30;
+    optional MsgMediaMuxerOutputDeviceVolatiles MediaDeviceVolatiles = 31;
+}
+
+message MsgMediaServerPublishedPath {
+	string SourceId = 1;	
+	string Path = 2;
+}
+
+message MsgMediaServerClientSession {
+    int32 SessionIdNr = 1;
+    string RemoteName = 2;
+    string RemoteSoftware = 3;
+    string RemoteUrl = 4;
+    int64 StartTime = 5;
+}
+    
+message MsgMediaServer {
+    string ServerId = 1;    
+    string LocalAddress = 2;
+    int32 LocalPort = 3;
+    string Url = 4;
+    int32 TransportProtocol = 5;
+    int32 MaxClientCount = 7;
+    
+    repeated MsgMediaServerPublishedPath PublishedPaths = 20;
+    repeated MsgMediaServerClientSession ClientSessions = 30;    
+}
+
+message MsgMediaSink {
+    string SinkId = 1;
+    int32 ConnectedSourceIdNr = 2;
+    string ConnectedSourceId = 3;
+    
+    repeated MsgMediaEncodingStream MediaEncodingStreams = 5;    
+    repeated MsgMediaCopyingStream MediaCopyingStreams = 6;
+    repeated MsgMediaMuxer MediaMuxers = 7;
+}
+
+message MsgReportStreams {
+    repeated MsgMediaSource MediaSources = 1;
+    repeated MsgMediaServer MediaServers = 2;
+    repeated MsgMediaSink MediaSinks = 3;
+}
+
+message MsgReportStreamsVolatiles {
+    repeated MsgMediaSourceVolatiles MediaSourceVolatiles = 1;
+    repeated MsgMediaSourcePlaybackVolatiles MediaSourcePlaybackVolatiles = 2;
+    repeated MsgMediaSourceNetworkVolatiles MediaSourceNetworkVolatiles = 3;
+    repeated MsgMediaDemuxerStreamVolatiles MediaDemuxerStreamVolatiles = 4;
+	repeated MsgMediaInputStreamVolatiles MediaInputStreamVolatiles = 5;
+	repeated MsgMediaEncodingStreamVolatiles MediaEncodingStreamVolatiles = 6;
+	repeated MsgMediaCopyingStreamVolatiles MediaCopyingStreamVolatiles = 7;
+	repeated MsgMediaMuxerOutputVolatiles MediaMuxerOutputVolatiles = 8;
+    repeated MsgMediaMuxerStreamVolatiles MediaMuxerStreamVolatiles = 9;
+}

@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package MultiStreamerLicenseInfrastructure;
+
+message MsgReportAccountOtherSession {
+    string Id = 1;
+    string IpAddress = 2;
+    string AuthenticationToken = 3;
+    int64 CreationTime = 4;
+    int64 LastUsedTime = 5;
+}
+
+message MsgReportAccountLicenseFeature {
+    int32 Feature = 1; 
+    int64 ExpiryDate = 2;
+    uint32 Multiplicity = 3;
+}
+    
+message MsgReportAccountLicense {
+	int64 Id = 1;
+	int32 Product = 2;
+	string Key = 3;
+	string Name = 4;
+	string Comment = 5;
+    repeated MsgReportAccountLicenseFeature Features = 6; 
+	int64 TestLicenseExpiryDate = 7;
+	int64 InUseUntil = 8;
+}
+
+message MsgReportAccount {
+    bool IsLoggedIn = 1;
+    string FullName = 2;
+    string FullAddress = 3;
+    string EmailAddress = 4;
+    int64 AccountCreationDate = 5;
+    
+    repeated MsgReportAccountOtherSession OtherSessions = 10;
+    repeated MsgReportAccountLicense Licenses = 20;
+}

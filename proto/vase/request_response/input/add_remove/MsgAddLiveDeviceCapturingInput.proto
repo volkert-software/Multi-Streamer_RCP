@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+import "MsgAudioDeviceSetting.proto";
+import "MsgVideoDeviceSetting.proto";
+
+message MsgAddVideoDeviceStream {
+    string VideoDeviceId = 1;
+    MsgVideoDeviceSetting VideoDeviceSetting = 2;
+}
+
+message MsgAddAudioDeviceStream {
+    string AudioDeviceId = 1;
+    MsgAudioDeviceSetting AudioDeviceSetting = 2;
+}
+
+message MsgAddLiveDeviceCapturingInput {
+    repeated MsgAddVideoDeviceStream VideoDeviceStreams = 1;
+    repeated MsgAddAudioDeviceStream AudioDeviceStreams = 2;
+
+    map<string, string> AppStateValues = 7;
+}

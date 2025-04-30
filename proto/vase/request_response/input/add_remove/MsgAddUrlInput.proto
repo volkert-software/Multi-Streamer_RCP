@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+import "MsgMediaDecoderSettings.proto";
+
+message MsgAddUrlInput {
+    string Url = 1;
+    MsgMediaDecoderSettings MediaDecoderSettings = 2;
+
+    map<string, string> AppStateValues = 7;
+}

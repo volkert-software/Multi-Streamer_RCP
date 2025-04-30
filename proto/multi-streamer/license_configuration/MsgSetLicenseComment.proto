@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package MultiStreamerLicenseInfrastructure;
+
+message MsgSetLicenseComment {
+    int64 Id = 1;
+    string Comment = 2;
+}

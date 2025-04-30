@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgVideoAccelerator {
+    uint32 Type = 1;
+    string DeviceId = 2;
+    string Name = 3;
+    uint32 OnboardMemorySize = 4; //in GB
+    uint32 MemorySize = 5; //in GB
+    bool VideoDecoding = 6;
+    bool VideoEncoding = 7;
+}
+
+message MsgNetworkAdapter {
+    uint32 Type = 1;
+    string Name = 2;
+    bool Up = 3;
+    bool Running = 4;
+    int32 TxSpeed = 5;
+    int32 RxSpeed = 6;
+    int32 Mtu = 7;
+    bool InternetUplink = 8;
+    repeated string IpAddress = 20;
+}
+
+message MsgSystemHardware {
+    string CpuVendor = 1;
+    string CpuName = 2;
+    uint32 CpuCores = 3;
+    uint64 MemoryInstalled = 10;
+    string BoardVendor = 21;
+    string BoardProductName = 22;
+    string BoardBiosVendor = 23;
+    string BoardBiosRevision = 24;
+    string BoardBiosDate = 25;
+    repeated MsgVideoAccelerator VideoAccelerator = 40;
+    repeated MsgNetworkAdapter NetworkAdapter = 41;
+}
+
+enum PlatformType {
+    UndefinedPlatform = 0;
+    WindowsPlatform = 1;
+    AndroidPlatform = 2;
+    MacOsPlatform = 3;
+    IosPlatform = 4;
+    LinuxPlatform = 5;
+}
+
+message MsgSystemSoftware {
+    PlatformType Platform = 1;
+    string OperatingSystemReleaseName = 2;
+    string Hostname = 3;
+}
+
+message MsgReportSystem {
+    MsgSystemHardware SystemHardware = 1;
+    MsgSystemSoftware SystemSoftware = 2;
+};
+
+message MsgVideoAcceleratorVolatiles {
+    int32 AcceleratorIndex = 1;
+    int32 Temperature = 2;
+    int32 DecoderUtilization = 3;
+    int32 EncoderUtilization = 4;
+    int32 FanSpeed1 = 5;
+};
+
+message MsgLogMessage {
+    uint32 Level = 1;
+    int64 Time = 2;
+    string FunctionName = 3;
+    bytes Message = 4;
+}
+
+message MsgReportSystemVolatiles {
+    int64 InputDataRate = 1;
+    int64 OutputDataRate = 2;
+    float RelativeCpuUsage = 3;
+    int64 MemoryUsage = 4;
+    int32 HandlesUsage = 5;
+    
+    repeated MsgVideoAcceleratorVolatiles VideoAcceleratorVolatiles = 10;
+    repeated MsgLogMessage LogMessages = 11;
+};

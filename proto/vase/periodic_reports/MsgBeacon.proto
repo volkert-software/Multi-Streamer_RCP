@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+import "MsgReportSystem.proto";
+
+message MsgBeacon {
+    string SenderId = 1;
+    string SenderName = 2;
+    int32 SenderManagementPort = 3;
+    int32 SenderLiveMediaPort = 4;
+    
+    optional PlatformType Platform = 7;
+    optional string OperatingSystemReleaseName = 8;
+    
+    optional int32 SenderAppProductId = 9;
+    optional string SenderAppName = 10;
+    optional int32 SenderAppVersionMajor = 11;
+    optional int32 SenderAppVersionMinor = 12;
+    optional int32 SenderAppVersionPatch = 13;
+}

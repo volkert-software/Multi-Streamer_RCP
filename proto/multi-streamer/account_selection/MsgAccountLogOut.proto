@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package MultiStreamerLicenseInfrastructure;
+
+message MsgAccountLogOut {
+	string AuthToken = 1;
+}

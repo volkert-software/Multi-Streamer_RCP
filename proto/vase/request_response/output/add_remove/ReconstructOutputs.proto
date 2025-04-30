@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+import "MsgAddFileOutput.proto"; 
+import "MsgAddNetworkOutput.proto";
+import "MsgAddNdiOutput.proto";
+import "MsgAddDeckLinkDevicePlaybackOutput.proto";
+import "MsgAddCorvidKONADevicePlaybackOutput.proto";
+import "MsgAddServer.proto";
+
+message ReconstructOutputs {
+    repeated MsgAddFileOutput AddFileOutputs = 1;
+    repeated MsgAddNetworkOutput AddNetworkOutputs = 2;
+    repeated MsgAddNdiOutput AddNdiOutputs = 3;
+    repeated MsgAddServer AddServers = 4;
+    repeated MsgAddDeckLinkDevicePlaybackOutput AddDeckLinkDevicePlaybackOutput = 5;
+    repeated MsgAddCorvidKONADevicePlaybackOutput AddCorvidKONADevicePlaybackOutput = 6;
+};

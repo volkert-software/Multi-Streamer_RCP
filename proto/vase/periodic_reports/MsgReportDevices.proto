@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgVideoSetting {
+    int32 Width = 1;
+    int32 Height = 2;
+    double Fps = 3;
+    int32 PixelFormat = 4;
+    int32 VideoScanMethd = 5;
+}
+
+message MsgAudioSetting {
+    int32 Channels = 1;
+    int32 SampleRate = 2;
+    int32 BytesPerSample = 3;
+    int32 SampleFormat = 4;
+}
+
+message MsgMediaDevice {
+    int32 HardwareNumber = 1;
+    int32 Type = 2;
+    int32 SubTypes = 3;
+    string Name = 4;
+    string Description = 5;
+    string DeviceID = 6;
+    bool Disabled = 7;
+    repeated MsgVideoSetting VideoSettings = 8;
+    repeated MsgAudioSetting AudioSettings = 9;
+}
+
+message MsgScreenDevice {
+    int32 HardwareNumber = 1;
+    string Name = 2;
+    string Description = 3;
+    string DeviceID = 4;
+    bool Disabled = 5;
+    int32 OriginX = 6;
+    int32 OriginY = 7;
+    int32 Width = 8;
+    int32 Height = 9;
+    double Fps = 10;
+    int32 PixelFormat = 11;
+}
+
+message MsgMediaDeviceDeckLinkVolatiles {
+	string DeviceID = 1;
+	int32 SubDeviceProfile = 2;
+	int32 UsageMode = 3;
+	int32 Temperature = 4;
+	int32 DetectedInputVideoMode = 5;
+	int32 DetectedInputVideoColorSpace = 6;
+	int32 CurrentOutputVideoMode = 7;
+}
+
+message MsgMediaDeviceCorvidKONAVolatiles {
+	string DeviceID = 1;
+	double Temperature = 2;
+}
+
+message MsgDeckLinkDevice {
+    int32 HardwareNumber = 1;
+    string Name = 2;
+    string Description = 3;
+    string DeviceID = 4;
+    bool Disabled = 5;
+
+    int32 Model = 6;
+    string ModelName = 7;
+	int32 SubDeviceIndex = 8;
+	int64 AvailableInputVideoConnections = 9;
+	int64 AvailableOutputVideoConnections = 10;
+	bool SupportsInputVideoFormatDetection = 11;
+	int32 MaxAvailableEmbeddedAudioChannels = 12;
+	
+	repeated MsgVideoSetting VideoSettings = 15;
+}
+
+message MsgCorvidKONADevice {
+    int32 HardwareNumber = 1;
+    string Name = 2;
+    string Description = 3;
+    string DeviceID = 4;
+    bool Disabled = 5;
+
+    int32 Model = 6;
+    string ModelName = 7;
+    int32 NumberInputChannels = 8;
+    int32 NumberOutputChannels = 9;
+    int32 MaxAvailableEmbeddedAudioChannels = 10;
+}
+
+message MsgReportDevices {
+    repeated MsgMediaDevice CaptureMediaDevices = 3;
+    repeated MsgScreenDevice ScreenDevices = 4;
+    repeated MsgMediaDevice PlaybackMediaDevices = 5;
+    repeated MsgDeckLinkDevice CaptureMediaDevicesDeckLink = 6;
+    repeated MsgDeckLinkDevice PlaybackMediaDevicesDeckLink = 7;
+    repeated MsgCorvidKONADevice CaptureMediaDevicesCorvidKONA = 8;
+    repeated MsgCorvidKONADevice PlaybackMediaDevicesCorvidKONA = 9;
+}
+
+message MsgReportDevicesVolatiles {
+    repeated MsgMediaDeviceDeckLinkVolatiles MediaDeviceDeckLinkVolatiles = 1;
+    repeated MsgMediaDeviceCorvidKONAVolatiles MediaDeviceCorvidKONAVolatiles = 2;
+}

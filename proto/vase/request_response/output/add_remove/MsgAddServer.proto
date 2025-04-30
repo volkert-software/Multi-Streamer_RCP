@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+import "MsgPublishPath.proto";
+
+message MsgAddServer {
+    string Url = 1;
+    map<string, string> ProtocolParameters = 2;
+    
+    repeated MsgPublishPath PublishedPaths = 10;
+}

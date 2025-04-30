@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgMediaMuxerSettings {
+	int32 Format = 1;
+	map<string, string> FormatOptions = 2;
+	string ServiceName = 3;
+	int32 InputDataCopying = 4;
+}

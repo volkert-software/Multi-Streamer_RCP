@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgAddServerResponse {
+    string ServerId = 1;
+    int32 VaseResult = 2;
+}

@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package MultiStreamerLicenseInfrastructure;
+
+message MsgAccountLogInResult {
+	int64 Result = 1;
+	string AuthToken = 2;
+}

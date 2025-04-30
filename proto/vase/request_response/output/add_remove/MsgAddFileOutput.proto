@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+import "MsgMediaMuxerSettings.proto";
+import "MsgMediaEncoderSettings.proto";
+
+message MsgAddFileOutput {
+    string SourceId = 1;
+    string Url = 2;
+    MsgMediaMuxerSettings MediaMuxerSettings = 3;
+    MsgMediaEncoderSettings MediaEncoderSettings = 4;
+    bool DataForwardingPaused = 5;
+
+    map<string, string> AppStateValues = 7;
+}
