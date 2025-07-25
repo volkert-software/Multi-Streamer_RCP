@@ -7,6 +7,7 @@ import "MsgAddNetworkOutput.proto";
 import "MsgAddNdiOutput.proto";
 import "MsgAddDeckLinkDevicePlaybackOutput.proto";
 import "MsgAddCorvidKONADevicePlaybackOutput.proto";
+import "MsgAddEpochKronosDevicePlaybackOutput.proto";
 import "MsgAddServer.proto";
 
 message ReconstructOutputs {
@@ -16,4 +17,5 @@ message ReconstructOutputs {
     repeated MsgAddServer AddServers = 4;
     repeated MsgAddDeckLinkDevicePlaybackOutput AddDeckLinkDevicePlaybackOutput = 5;
     repeated MsgAddCorvidKONADevicePlaybackOutput AddCorvidKONADevicePlaybackOutput = 6;
+    repeated MsgAddEpochKronosDevicePlaybackOutput AddEpochKronosDevicePlaybackOutput = 7;
 };

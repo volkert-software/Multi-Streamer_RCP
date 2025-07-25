@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+import "MsgOutputDeviceAudioStreamChannelMappings.proto";
+import "MsgOutputDeviceVideoSetting.proto";
+
+message MsgAddEpochKronosDevicePlaybackOutput {
+    string SourceId = 1;
+    string DeviceId = 2;
+    int32 VideoStreamId = 3;
+    int32 OutputChannel = 4;
+    MsgOutputDeviceVideoSetting VideoDeviceSetting = 5;
+    int32 ColorDepth = 6;
+    map<int32, MsgOutputDeviceAudioStreamChannelMappings> OutputStreamAudioChannelsMappings = 7;
+	bool DataForwardingPaused = 8;
+
+    map<string, string> AppStateValues = 12;
+}

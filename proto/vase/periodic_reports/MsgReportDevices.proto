@@ -58,6 +58,11 @@ message MsgMediaDeviceCorvidKONAVolatiles {
 	double Temperature = 2;
 }
 
+message MsgMediaDeviceEpochKronosVolatiles {
+	string DeviceID = 1;
+	double Temperature = 2;
+}
+
 message MsgDeckLinkDevice {
     int32 HardwareNumber = 1;
     string Name = 2;
@@ -90,6 +95,20 @@ message MsgCorvidKONADevice {
     int32 MaxAvailableEmbeddedAudioChannels = 10;
 }
 
+message MsgEpochKronosDevice {
+    int32 HardwareNumber = 1;
+    string Name = 2;
+    string Description = 3;
+    string DeviceID = 4;
+    bool Disabled = 5;
+
+    int32 Model = 6;
+    string ModelName = 7;
+    int32 NumberInputChannels = 8;
+    int32 NumberOutputChannels = 9;
+    int32 MaxAvailableEmbeddedAudioChannels = 10;
+}
+
 message MsgReportDevices {
     repeated MsgMediaDevice CaptureMediaDevices = 3;
     repeated MsgScreenDevice ScreenDevices = 4;
@@ -98,9 +117,12 @@ message MsgReportDevices {
     repeated MsgDeckLinkDevice PlaybackMediaDevicesDeckLink = 7;
     repeated MsgCorvidKONADevice CaptureMediaDevicesCorvidKONA = 8;
     repeated MsgCorvidKONADevice PlaybackMediaDevicesCorvidKONA = 9;
+    repeated MsgEpochKronosDevice CaptureMediaDevicesEpochKronos = 10;
+    repeated MsgEpochKronosDevice PlaybackMediaDevicesEpochKronos = 11;
 }
 
 message MsgReportDevicesVolatiles {
     repeated MsgMediaDeviceDeckLinkVolatiles MediaDeviceDeckLinkVolatiles = 1;
     repeated MsgMediaDeviceCorvidKONAVolatiles MediaDeviceCorvidKONAVolatiles = 2;
+    repeated MsgMediaDeviceEpochKronosVolatiles MediaDeviceEpochKronosVolatiles = 3;
 }

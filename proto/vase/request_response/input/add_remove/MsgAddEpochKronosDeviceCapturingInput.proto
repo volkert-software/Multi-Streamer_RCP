@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+import "MsgInputDeviceAudioStreamChannelMappings.proto";
+
+message MsgAddEpochKronosDeviceCapturingInput {
+    string DeviceId = 1;
+    int32 InputChannel = 2;
+    int32 ColorDepth = 3;
+    map<int32, MsgInputDeviceAudioStreamChannelMappings> InputStreamAudioChannelsMappings = 4;
+
+    map<string, string> AppStateValues = 7;
+}

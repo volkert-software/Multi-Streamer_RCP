@@ -138,6 +138,48 @@ message MsgMediaSourcePlayback {
     int64 PreBufferTime = 6;
 }
 
+message MsgMediaDemuxerMpegTsVolatiles {
+    string SourceId = 1;
+
+    double PatRate      = 2;
+    int64 PatCounter    = 3;
+    double PmtRate      = 4;
+    int64 PmtCounter    = 5;
+    double NitRate      = 6;
+    int64 NitCounter    = 7;
+    double CatRate      = 8;
+    int64 CatCounter    = 9;
+    double SdtRate      = 10;
+    int64 SdtCounter    = 11;
+    double TdtRate      = 12;
+    int64 TdtCounter    = 13;
+    double TotRate      = 14;
+    int64 TotCounter    = 15;
+    double EitRate      = 16;
+    int64 EitCounter    = 17;
+    double AitRate      = 18;
+    int64 AitCounter    = 19;
+    double TsdtRate     = 20;
+    int64 TsdtCounter   = 21;
+    double BatRate      = 22;
+    int64 BatCounter    = 23;
+
+    int64 DiscontinuityErrors        = 30;
+    int64 PacketCounter              = 31;
+    int64 MissedPackets              = 32;
+    map<int32, uint64> PacketsPerPid = 33;
+    int64 PacketRate                 = 34;
+    int64 PacketAvgTimeDiff          = 35;
+    int64 PacketDataCounter          = 36;
+    int64 NullPacketCounter          = 37;
+    int64 NullPacketDataCounter      = 38;
+    int64 PcrMinTimeDiff             = 39;
+    int64 PcrMaxTimeDiff             = 40;
+    int64 PcrRate                    = 41;
+    int64 PcrAvgTimeDiff             = 42;
+    //
+}
+
 message MsgMediaSourceNetworkVolatiles {
     string SourceId = 1;
 	string NetworkAddress = 2;
@@ -489,4 +531,6 @@ message MsgReportStreamsVolatiles {
 	repeated MsgMediaCopyingStreamVolatiles MediaCopyingStreamVolatiles = 7;
 	repeated MsgMediaMuxerOutputVolatiles MediaMuxerOutputVolatiles = 8;
     repeated MsgMediaMuxerStreamVolatiles MediaMuxerStreamVolatiles = 9;
+    
+    repeated MsgMediaDemuxerMpegTsVolatiles MediaDemuxerMpegTsVolatiles = 20;
 }

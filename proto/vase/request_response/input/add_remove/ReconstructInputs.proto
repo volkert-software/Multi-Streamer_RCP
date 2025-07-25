@@ -4,6 +4,7 @@ package VaseInfraStructure;
 
 import "MsgAddDeckLinkDeviceCapturingInput.proto";
 import "MsgAddCorvidKONADeviceCapturingInput.proto";
+import "MsgAddEpochKronosDeviceCapturingInput.proto";
 import "MsgAddLiveDeviceCapturingInput.proto"; 
 import "MsgAddNdiInput.proto"; 
 import "MsgAddNetworkInput.proto"; 
@@ -17,6 +18,7 @@ message AddInput {
 	    MsgAddNdiInput AddNdiInput = 4;
 	    MsgAddDeckLinkDeviceCapturingInput AddDeckLinkDeviceCapturingInput = 5;
 	    MsgAddCorvidKONADeviceCapturingInput AddCorvidKONADeviceCapturingInput = 6;
+	    MsgAddEpochKronosDeviceCapturingInput AddEpochKronosDeviceCapturingInput = 7;
 	} 
 };
 
