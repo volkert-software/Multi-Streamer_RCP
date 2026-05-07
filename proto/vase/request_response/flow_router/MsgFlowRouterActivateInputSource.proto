@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package VaseInfraStructure;
 
-message MsgInputDataForwardingSetPaused {
+message MsgFlowRouterActivateInputSource {
     string RouterId = 1;
-    bool Paused = 2;
+    string SourceId = 2;
 }

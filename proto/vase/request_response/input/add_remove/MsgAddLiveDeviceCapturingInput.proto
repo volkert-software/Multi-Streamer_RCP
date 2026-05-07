@@ -16,8 +16,9 @@ message MsgAddAudioDeviceStream {
 }
 
 message MsgAddLiveDeviceCapturingInput {
-    repeated MsgAddVideoDeviceStream VideoDeviceStreams = 1;
-    repeated MsgAddAudioDeviceStream AudioDeviceStreams = 2;
+    string RouterId = 1;
+    repeated MsgAddVideoDeviceStream VideoDeviceStreams = 2;
+    repeated MsgAddAudioDeviceStream AudioDeviceStreams = 3;
 
-    map<string, string> AppStateValues = 7;
+    map<string, string> AppStateValues = 10;
 }

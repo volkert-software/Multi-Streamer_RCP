@@ -8,7 +8,7 @@ import "MsgMediaEncoderSettings.proto";
 message MsgPublishPath {
     string ServerId = 1;
     string Path = 2;
-    string SourceId = 3;
+    string RouterId = 3;
     MsgMediaMuxerSettings MediaMuxerSettings = 4;
     MsgMediaEncoderSettings MediaEncoderSettings = 5;
 }

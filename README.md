@@ -101,10 +101,19 @@ Like all streaming products from Volkert Software also Multi-Streamer uses inter
         ADD_INPUT_FOR_NDI_STREAM                       = 0x105
         ADD_INPUT_FOR_DECKLINK_DEVICE_CAPTURING        = 0x106
         ADD_INPUT_FOR_CORVIDKONA_DEVICE_CAPTURING      = 0x107
+		ADD_INPUT_FOR_EPOCHKRONOS_DEVICE_CAPTURING     = 0x108
         REMOVE_INPUT                                   = 0x121
+		REMOVE_FLOW_ROUTER                             = 0x122
         // <---- response
         ADD_INPUT_RESPONSE                             = 0x151
         REMOVE_INPUT_RESPONSE                          = 0x152
+		REMOVE_FLOW_ROUTER_RESPONSE                    = 0x153
+        
+        /**********************
+         * INPUT STATISTICS
+         **********************/
+        INPUT_RESET_NETWORK_STATISTICS                 = 0x161
+        INPUT_RESET_MPEGTS_STATISTICS                  = 0x162
         
         /**********************
          * SET INPUT ATTRBUTES
@@ -125,6 +134,12 @@ Like all streaming products from Volkert Software also Multi-Streamer uses inter
         INPUT_PLAYBACK_UNSUBSCRIBE_FROM_MEDIA_PACKETS  = 0x192
         
         /**********************
+         * FLOW ROUTER
+         **********************/
+        ACTIVATE_FLOW_ROUTER_INPUT_SOURCE              = 0x601
+        REMOVE_FLOW_ROUTER_INPUT_SOURCE                = 0x603
+
+        /**********************
          * ADD OUTPUTS
          **********************/
         ADD_OUTPUT_FOR_NETWORK                         = 0x201
@@ -132,6 +147,7 @@ Like all streaming products from Volkert Software also Multi-Streamer uses inter
         ADD_OUTPUT_FOR_NDI_STREAM                      = 0x205
         ADD_OUTPUT_FOR_DECKLINK_DEVICE_PLAYBACK        = 0x206
         ADD_OUTPUT_FOR_CORVIDKONA_DEVICE_PLAYBACK      = 0x207
+		ADD_OUTPUT_FOR_EPOCHKRONOS_DEVICE_PLAYBACK     = 0x208
         REMOVE_OUTPUT                                  = 0x221
         // <---- response
         ADD_OUTPUT_RESPONSE                            = 0x251
@@ -252,43 +268,52 @@ The following list gives an overview about the most important result codes:
         VASE_ERR_MISSING_INIT                            = -7    /* missing initialization: one or more initialization calls are missing */
         VASE_ERR_MISSING_LIBRARY                         = -8    /* missing library: one or more needed libraries could not be loaded dynamically during runtime */
         VASE_ERR_UNSUPPORTED_CALL                        = -9    /* unsupported call: the call isn't supported with the given instance */
-        VASE_ERR_NET_CLIENT                              = -10   /* network client error: any network problem, e.g., a TCP connect failed */
-        VASE_ERR_NET_CLIENT_DNS_RESOLUTION               = -11   /* network DNS resolution error: a given host name could not be resolved to a valid IP address */
-        VASE_ERR_NET_CLIENT_ROUTING                      = -12   /* network routing error: no route for the given IP address was found */
-        VASE_ERR_NET_CLIENT_NO_FREE_LOCAL_PORT           = -13   /* network port allocation error: no free local port available */
-        VASE_ERR_NET_CLIENT_TLS                          = -14   /* network transport error: general TLS problem occured */
-        VASE_ERR_NET_CLIENT_ADDRESS_USED                 = -15   /* network socket error: the socket address (IP & port) is used */
-        VASE_ERR_NET_CLIENT_NETWORK_DOWN                 = -16   /* network error: the network is down */
-        VASE_ERR_NET_CLIENT_NETWORK_UNREACHABLE          = -17   /* network error: the network is unreachable */
-        VASE_ERR_NET_CLIENT_PEER_RESET                   = -18   /* network transport error: the connection was reset by peer */
-        VASE_ERR_NET_CLIENT_TIMEOUT                      = -19   /* network transport error: the connection timed out */
-        VASE_ERR_NET_CLIENT_CONNECT_REFUSED              = -20   /* network transport error: the connection attempt was refused */
-        VASE_ERR_NET_CLIENT_UNAUTHORIZED                 = -21   /* network transport error: the connection is unauthorized */
-        VASE_ERR_NET_CLIENT_PASS_WRONG                   = -22   /* network transport error: the connection password was wrong (e.g., for SRT connection or RTMP publishing) */
-        VASE_ERR_NET_CLIENT_PASS_STATE                   = -23   /* network transport error: the connection password was missing/unexpected (e.g., for SRT) */
-        VASE_ERR_NET_CLIENT_STREAMID_WRONG               = -24   /* network transport error: the connection stream ID was wrong (only for SRT) */
-        VASE_ERR_NET_CLIENT_MESSAGE_STREAM_API_STATE     = -25   /* network transport error: the connection attempt failed due to Message/Stream API collision (only for SRT) */
-        VASE_ERR_NET_CLIENT_PASS_MISSING                 = -26   /* network transport error: the connection password was missing */
-        VASE_ERR_NET_CLIENT_PASS_UNEXPECTED              = -27   /* network transport error: the connection password was unexpected */
-        VASE_ERR_NET_CLIENT_PORT_UNREACHABLE             = -28   /* network transport error: the connection attempt failed due to unreachable remote port, e.g., no listener is running remotely*/
-        VASE_ERR_NET_CLIENT_PATH_UNAVAILABLE             = -29   /* network transport error: the connection tried to access an unavailable path at the remote side */
-        VASE_ERR_NET_CLIENT_PORT_BINDING                 = -30   /* network transport error: the port binding failed (e.g., for SRT) */
-        VASE_ERR_NET_CLIENT_ABORT                        = -31   /* network transport error: an explicit abort was triggered */
-        VASE_ERR_NET_HIGHER_CLIENT_RTMP_HANDSHAKE_FAILED = -33   /* higher network client: RTMP handshake failed */
-        VASE_ERR_NET_CLIENT_SRT_BONDING_MODE_REFUSED     = -39   /* network transport error: the used SRT bonding mode was refused */
-        VASE_ERR_NET_SERVER_MULTICAST_JOIN               = -40   /* network multicast error: could not join multicast group */
-        VASE_ERR_NET_SERVER_HOST                         = -41   /* network host error: given server host doesn't belong to a locally valid IP address */
-        VASE_ERR_FILE_NOT_FOUND                          = -80   /* file access: the desired input file was not found */
-        VASE_ERR_FILE_READING                            = -81   /* file access: the desired file read was not possible */
-        VASE_ERR_FILE_WRITING                            = -82   /* file access: the desired file write was not possible */
-        VASE_ERR_DEVICE_ACCESS                           = -90   /* device access: there was a problem accessing the desired device */
-        VASE_ERR_DEVICE_ACCESS_PERMISSION                = -91   /* device access: there was a problem accessing the desired device due to missing permission */
-        VASE_ERR_RPC_SERVER_RESPONSE_TIMEOUT             = -201  /* RPC: the RPC server response timed out */
-        VASE_ERR_RPC_CLIENT_UNAUTHORIZED                 = -202  /* RPC: the RPC request is unauthorized */
-        VASE_ERR_RPC_CLIENT_LOGIN_DENIED                 = -203  /* RPC: the RPC login was denied */
-        VASE_ERR_RPC_CLIENT_UNKNOWN_OBJECT               = -204  /* RPC: the RPC request referenced an unknown object */
+        VASE_ERR_NET_CLIENT_DUPLICATED_DESTINATION       = -106  /* network client error: a duplicated request towards the same streaming destination has occurred */
+        VASE_ERR_NET_CLIENT                              = -110  /* network client error: any network problem, e.g., a TCP connect failed */
+        VASE_ERR_NET_CLIENT_DNS_RESOLUTION               = -111  /* network DNS resolution error: a given host name could not be resolved to a valid IP address */
+        VASE_ERR_NET_CLIENT_ROUTING                      = -112  /* network routing error: no route for the given IP address was found */
+        VASE_ERR_NET_CLIENT_NO_FREE_LOCAL_PORT           = -113  /* network port allocation error: no free local port available */
+        VASE_ERR_NET_CLIENT_TLS                          = -114  /* network transport error: general TLS problem occured */
+        VASE_ERR_NET_CLIENT_ADDRESS_USED                 = -115  /* network socket error: the socket address (IP & port) is used */
+        VASE_ERR_NET_CLIENT_NETWORK_DOWN                 = -116  /* network error: the network is down */
+        VASE_ERR_NET_CLIENT_NETWORK_UNREACHABLE          = -117  /* network error: the network is unreachable */
+        VASE_ERR_NET_CLIENT_PEER_RESET                   = -118  /* network transport error: the connection was reset by peer */
+        VASE_ERR_NET_CLIENT_TIMEOUT                      = -119  /* network transport error: the connection timed out */
+        VASE_ERR_NET_CLIENT_CONNECT_REFUSED              = -120  /* network transport error: the connection attempt was refused */
+        VASE_ERR_NET_CLIENT_UNAUTHORIZED                 = -121  /* network transport error: the connection is unauthorized */
+        VASE_ERR_NET_CLIENT_PASS_WRONG                   = -122  /* network transport error: the connection password was wrong (e.g., for SRT connection or RTMP publishing) */
+        VASE_ERR_NET_CLIENT_PASS_STATE                   = -123  /* network transport error: the connection password was missing/unexpected (e.g., for SRT) */
+        VASE_ERR_NET_CLIENT_STREAMID_WRONG               = -124  /* network transport error: the connection stream ID was wrong (only for SRT) */
+        VASE_ERR_NET_CLIENT_MESSAGE_STREAM_API_STATE     = -125  /* network transport error: the connection attempt failed due to Message/Stream API collision (only for SRT) */
+        VASE_ERR_NET_CLIENT_PASS_MISSING                 = -126  /* network transport error: the connection password was missing */
+        VASE_ERR_NET_CLIENT_PASS_UNEXPECTED              = -127  /* network transport error: the connection password was unexpected */
+        VASE_ERR_NET_CLIENT_PORT_UNREACHABLE             = -128  /* network transport error: the connection attempt failed due to unreachable remote port, e.g., no listener is running remotely*/
+        VASE_ERR_NET_CLIENT_PATH_UNAVAILABLE             = -129  /* network transport error: the connection tried to access an unavailable path at the remote side */
+        VASE_ERR_NET_CLIENT_PORT_BINDING                 = -130  /* network transport error: the port binding failed (e.g., for SRT) */
+        VASE_ERR_NET_CLIENT_ABORT                        = -131  /* network transport error: an explicit abort was triggered */
+        VASE_ERR_NET_HIGHER_CLIENT_RTMP_HANDSHAKE_FAILED = -133  /* higher network client: RTMP handshake failed */
+        VASE_ERR_NET_CLIENT_SRT_BONDING_MODE_REFUSED     = -139  /* network transport error: the used SRT bonding mode was refused */
+        VASE_ERR_NET_CLIENT_SRT_PEER_LISTENER_BACKLOG_OVERLOAD = -140 /* network transport error: the SRT peer is a listener with overloaded connect attempt backlog */
+        VASE_ERR_NET_SERVER_MULTICAST_JOIN               = -141  /* network multicast error: could not join multicast group */
+        VASE_ERR_NET_SERVER_HOST                         = -142  /* network host error: given server host doesn't belong to a locally valid IP address */
+        VASE_ERR_NET_MULTICAST_RECEIVER_HOST             = -145  /* network host error: given multicast receiver host doesn't belong to a local network interface */
+        VASE_ERR_FILE_NOT_FOUND                          = -210  /* file access: the desired input file was not found */
+        VASE_ERR_FILE_READING                            = -211  /* file access: the desired file read was not possible */
+        VASE_ERR_FILE_WRITING                            = -212  /* file access: the desired file write was not possible */
+        VASE_ERR_FILE_WRITING_NO_SPACE_LEFT              = -213  /* file access: the desired file write was not possible */
+        VASE_ERR_DEVICE_ACCESS                           = -310  /* device access: there was a problem accessing the desired device */
+        VASE_ERR_DEVICE_ACCESS_PERMISSION                = -311  /* device access: there was a problem accessing the desired device due to missing permission */
+        VASE_ERR_RPC_SERVER_RESPONSE_TIMEOUT             = -501  /* RPC: the RPC server response timed out */
+        VASE_ERR_RPC_CLIENT_UNAUTHORIZED                 = -502  /* RPC: the RPC request is unauthorized */
+        VASE_ERR_RPC_CLIENT_LOGIN_DENIED                 = -503  /* RPC: the RPC login was denied */
+        VASE_ERR_RPC_CLIENT_UNKNOWN_OBJECT               = -504  /* RPC: the RPC request referenced an unknown object */
         VASE_ERR_SERIALIZATION_SPEC_DEPRECATED           = -1000 /* a serialized data structure (a file) has used a too old spec. */
-        VASE_ERR_SERIALIZATION_WRONG_FORMAT              = -1001
+        VASE_ERR_SERIALIZATION_SPEC_NEWER                = -1001 /* a serialized data structure (a file) has used a too new spec. */
+        VASE_ERR_SERIALIZATION_WRONG_FORMAT              = -1005
+        VASE_ERR_MUXER_NEEDS_SUB_STREAM                  = -10001 /* muxer: muxer lacks at least one sub stream */
+        VASE_ERR_URL_WRONG_FORMAT                        = -50001 /* the url was given in the wrong format causing parsing error */
+        VASE_ERR_CERT_FILE_NOT_FOUND                     = -50002 /* the cert file was given with wrong path */
+        VASE_ERR_PRIV_KEY_FILE_NOT_FOUND                 = -50003 /* the private key file was given with wrong path */
 </code>
 
 # Appendix B: (de-)muxer formats
@@ -313,6 +338,8 @@ VASE as well as Multi-Streamer support the following formats for demuxing and mu
         MPEGTS    = 15
         MPEG_DASH = 16
         MXF       = 17
-        WEBM      = 18
-        WMV       = 19
+        OGG       = 18
+        WEBM      = 26
+        WMV       = 27
+        FLAC      = 28
 </code>

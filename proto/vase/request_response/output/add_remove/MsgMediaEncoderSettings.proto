@@ -8,22 +8,36 @@ enum VideoBitrateControlAlgorithm {
 }
 
 message MsgMediaEncoderVideoSettings {
+	enum VideoScanMethods
+	{
+	    UNKNOWN = 0;
+	    INTERLACED = 1;
+	    PROGRESSIVE = 2;
+	}
+
 	int32 StreamId = 1;
     int32 VideoCodec = 2;
-    int32 VideoCodecFeatureProfile = 3;
-    int32 Width = 4;
-    int32 Height = 5;
-    int32 VideoBitrateMin = 6;
-    int32 VideoBitrate = 7;
-    int32 VideoBitrateMax = 8;
-    int32 VideoBitrateCtrlBufferSize = 9;
-    int32 VideoBitrateCtrlAlgorithm = 10; // VBR = 0, CBR = 1
-    int32 GopSize = 11;
-    float Fps = 12; //TODO: unsued atm
-    int32 VideoAccelerator = 13;
-    int32 MaxBFrames = 14;
-    int32 PixelFormat = 15;
-    int32 VideoStreamQualityProfile = 16;
+    int32 Width = 3;
+    int32 Height = 4;
+    float Fps = 5;
+    int32 TicksPerFrame = 6;
+    int32 PixelFormat = 8;
+    int32 VideoAccelerator = 9;
+    int32 VideoBitrateMin = 10;
+    int32 VideoBitrate = 11;
+    int32 VideoBitrateMax = 12;
+    int32 VideoBitrateCtrlBufferSize = 13;
+    int32 VideoBitrateCtrlAlgorithm = 14; // VBR = 0, CBR = 1
+    int32 MaxBFrames = 16;
+    int32 VideoStreamQualityProfile = 17;
+    int32 VideoCodecFeatureProfile = 18;
+	int32 VideoGopSize = 19;
+    VideoScanMethods VideoScanMethod = 20;
+    int32 VideoColorRange = 21;
+    int32 VideoColorPrimaries = 22;
+    int32 VideoColorTransferCharacteristics = 23;
+    int32 VideoColorSpace = 24;
+    int32 ChromaSubSampling = 25;
 	bool EncodedInputFramesCopying = 30;
 }
 

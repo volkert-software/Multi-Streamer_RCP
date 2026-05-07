@@ -5,10 +5,11 @@ package VaseInfraStructure;
 import "MsgMediaDecoderSettings.proto";
 
 message MsgAddNetworkInput {
-    string Url = 1;
-    map<string, string> ProtocolParameters = 2;
-    int32 DemuxFormat = 3;
-    MsgMediaDecoderSettings MediaDecoderSettings = 4;
+	string RouterId = 1;
+    string Url = 2;
+    map<string, string> ProtocolParameters = 3;
+    int32 DemuxFormat = 4;
+    MsgMediaDecoderSettings MediaDecoderSettings = 5;
 
-    map<string, string> AppStateValues = 7;
+    map<string, string> AppStateValues = 10;
 }

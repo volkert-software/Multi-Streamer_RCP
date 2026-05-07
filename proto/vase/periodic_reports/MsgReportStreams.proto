@@ -42,10 +42,10 @@ message MsgCodecParams {
 	int32 VideoCodecFeatureProfile = 16;
 	int32 VideoGopSize = 17;
     VideoScanMethods VideoScanMethod = 18;
-    int32 ColorRange = 19;
-    int32 ColorPrimaries = 20;
-    int32 ColorTransferCharacteristics = 21;
-    int32 ColorSpace = 22;
+    int32 VideoColorRange = 19;
+    int32 VideoColorPrimaries = 20;
+    int32 VideoColorTransferCharacteristics = 21;
+    int32 VideoColorSpace = 22;
     int32 UsedHardwareAcceleratorIndex = 23;
     string UsedHardwareAcceleratedVideoAPI = 24;
     
@@ -80,7 +80,7 @@ message MsgMediaInputStreamVolatiles {
 }
 
 message MsgMediaDemuxerStream {
-    string SourceId = 1;
+    optional string SourceId = 1;
 	int32 ProgramNr = 2;
 	int32 MpegtsPid = 3;
 	int32 ContainerStreamId = 4;
@@ -98,7 +98,7 @@ message MsgMediaDemuxerStreamVolatiles {
 }
 
 message MsgMediaInputStream {
-    string SourceId = 1;
+    optional string SourceId = 1;
 	int32 ProgramNr = 2;
 	int32 ContainerStreamId = 3;
 	int32 StreamID = 4;
@@ -114,7 +114,7 @@ message MsgMediaProgramStream {
 }
 
 message MsgMediaProgram {
-    string SourceId = 1;
+    optional string SourceId = 1;
 	int32 ProgramNumber = 2;
 	string Name = 3;	
 	int32 Type = 4;
@@ -129,7 +129,7 @@ message MsgMediaSourcePlaybackVolatiles {
 }
 
 message MsgMediaSourcePlayback {
-    string SourceId = 1;
+    optional string SourceId = 1;
     
     bool PlaybackStarted = 2;
     bool PlaybackPaused = 3;
@@ -184,6 +184,7 @@ message MsgMediaSourceNetworkVolatiles {
     string SourceId = 1;
 	string NetworkAddress = 2;
 	int32 NetworkPort = 3;
+	int32 NetworkPortRequested = 50;
 	string NetworkPeer = 4;
 	int64 Packets = 5;
 	int64 PacketDataSize = 6;
@@ -254,27 +255,28 @@ message MsgMediaSource {
         MEDIA_INPUT_DEVICE = 8;
     }
 
-    string SourceId = 1;
-    string Name = 2;
-    string InputName = 3;
-    string InputUrl = 4;
-    InputType Type = 5;
-    bool SupportsSeeking = 6;
-    bool AllStreamsInitialized = 7;
-    bool VideoOpen = 8;
-    bool AudioOpen = 9;
-    bool DemuxerAvailable = 10;
-    bool DemuxerOpen = 11;
-    int32 DemuxerFormat = 12;
-    string DemuxerImpl = 22;
-    string InputContainerFormat = 13;
-    string InputContainerFormatLong = 14;
-	bool DataForwardingMuted = 15;
-	bool DataForwardingPaused = 16;
-	double InputDuration = 17;
-	bool EndOfInputReached = 18;
-    bool IsSeeking = 19;
-    bool IsClosed = 20;
+    string RouterId = 1;
+    string SourceId = 2;
+    string Name = 3;
+    string InputName = 4;
+    string InputUrl = 5;
+    InputType Type = 6;
+    bool SupportsSeeking = 7;
+    bool AllStreamsInitialized = 8;
+    bool VideoOpen = 9;
+    bool AudioOpen = 10;
+    bool DemuxerAvailable = 11;
+    bool DemuxerOpen = 12;
+    int32 DemuxerFormat = 13;
+    string DemuxerImpl = 14;
+    string InputContainerFormat = 15;
+    string InputContainerFormatLong = 16;
+	bool DataForwardingMuted = 17;
+	bool DataForwardingPaused = 18;
+	int64 InputDuration = 19;
+	bool EndOfInputReached = 20;
+    bool IsSeeking = 21;
+    bool IsClosed = 22;
    
     // device specific 
     string DeviceVendor = 30;
@@ -307,6 +309,22 @@ message MsgMediaSource {
 	repeated MsgMediaProgram MediaPrograms = 90;
 }
 
+message MsgMediaFlowRouterSettings
+{
+	string SourceId = 1;
+	
+    int32 Priority                    = 2;
+    bool CondDeactivationOnEndOfInput = 3;
+};
+
+message MsgMediaFlowRouter {
+    MsgMediaSource ActiveSource = 1;
+
+    string ActiveSourceId = 2;
+    
+    repeated MsgMediaFlowRouterSettings MediaFlowRouterSettings = 10;
+}
+    
 message MsgMediaEncodingStreamVolatiles {
     string SinkId = 1;
 	int32 StreamID = 2;
@@ -326,11 +344,19 @@ message MsgMediaEncodingStreamVolatiles {
 }
 
 message MsgMediaEncodingStream {
-    string SinkId = 1;
+    optional string SinkId = 1;
 	int32 InputContainerStreamId = 2;
 	int32 StreamID = 3;
 	MsgCodecParams CodecParams = 4;
-	int32 CodecVideoBitRateControlAlgorithm = 5;
+	int32 VideoBitrateCtrlAlgorithm = 14;
+	int32 ChromaSubSampling = 25;
+}
+
+message MsgMediaEncodingFifo {
+    optional string SinkId = 1;
+	int32 StreamID = 2;
+	
+    int32 Size = 10;
 }
 
 message MsgMediaCopyingStreamVolatiles {
@@ -347,24 +373,25 @@ message MsgMediaCopyingStreamVolatiles {
 }
 
 message MsgMediaCopyingStream {
-    string SinkId = 1;
+    optional string SinkId = 1;
 	int32 InputContainerStreamId = 2;
 	int32 StreamID = 3;
 	MsgCodecParams CodecParams = 4;
 }
 
 message MsgMediaMuxer {
-    string SinkId = 1;
+    optional string SinkId = 1;
 	int32 MuxerId = 2;
-	int32 Format = 3;
-	bool isCopyingInputDataFromTheMediaSource = 4;
+    int32 MuxerFormat = 3;
+    string MuxerImpl = 4;
+    bool isCopyingInputDataFromTheMediaSource = 5;
 	
 	repeated MsgMediaMuxerStream MediaMuxerStreams = 9;  
 	repeated MsgMediaMuxerOutput MediaMuxerOutputs = 10;
 }
 
 message MsgMediaMuxerStream {
-    string SinkId = 1;
+    optional string SinkId = 1;
 	int32 MuxerId = 2;
 	int32 ContainerStreamId = 3;
 	MsgCodecParams CodecParams = 4;
@@ -382,7 +409,7 @@ message MsgMediaMuxerStreamVolatiles {
 }
 
 message MsgMediaMuxerOutput {
-    string SinkId = 1;
+    optional string SinkId = 1;
 	int32 MuxerId = 2;
 	int32 OutputId = 3;
 	int32 Type = 4;
@@ -500,6 +527,7 @@ message MsgMediaServer {
     string Url = 4;
     int32 TransportProtocol = 5;
     int32 MaxClientCount = 7;
+    int32 LocalPortRequested = 8;
     
     repeated MsgMediaServerPublishedPath PublishedPaths = 20;
     repeated MsgMediaServerClientSession ClientSessions = 30;    
@@ -507,18 +535,36 @@ message MsgMediaServer {
 
 message MsgMediaSink {
     string SinkId = 1;
-    int32 ConnectedSourceIdNr = 2;
-    string ConnectedSourceId = 3;
+    string ConnectedFlowRouterId = 2;
     
-    repeated MsgMediaEncodingStream MediaEncodingStreams = 5;    
-    repeated MsgMediaCopyingStream MediaCopyingStreams = 6;
-    repeated MsgMediaMuxer MediaMuxers = 7;
+    repeated MsgMediaEncodingStream MediaEncodingStreams = 10;
+    repeated MsgMediaEncodingFifo MediaEncodingFifos = 11;
+    repeated MsgMediaCopyingStream MediaCopyingStreams = 12;
+    repeated MsgMediaMuxer MediaMuxers = 13;
+
+    int32 NonVideoEncodingFifoSize = 20;     
+}
+
+message MsgMediaEncodingFifoVolatiles {
+    string SinkId = 1;
+	int32 StreamID = 2;
+	
+    int32 Usage = 3;
+    int64 FramesDropped = 4;      
+}
+
+message MsgMediaSinkVolatiles {
+    string SinkId = 1;
+    
+    int32 NonVideoEncodingFifoUsage = 10;
+    int64 NonVideoEncodingFifoFramesDropped = 11;
 }
 
 message MsgReportStreams {
     repeated MsgMediaSource MediaSources = 1;
-    repeated MsgMediaServer MediaServers = 2;
-    repeated MsgMediaSink MediaSinks = 3;
+    repeated MsgMediaFlowRouter MediaFlowRouters = 2;
+    repeated MsgMediaServer MediaServers = 3;
+    repeated MsgMediaSink MediaSinks = 4;
 }
 
 message MsgReportStreamsVolatiles {
@@ -526,11 +572,12 @@ message MsgReportStreamsVolatiles {
     repeated MsgMediaSourcePlaybackVolatiles MediaSourcePlaybackVolatiles = 2;
     repeated MsgMediaSourceNetworkVolatiles MediaSourceNetworkVolatiles = 3;
     repeated MsgMediaDemuxerStreamVolatiles MediaDemuxerStreamVolatiles = 4;
-	repeated MsgMediaInputStreamVolatiles MediaInputStreamVolatiles = 5;
-	repeated MsgMediaEncodingStreamVolatiles MediaEncodingStreamVolatiles = 6;
-	repeated MsgMediaCopyingStreamVolatiles MediaCopyingStreamVolatiles = 7;
-	repeated MsgMediaMuxerOutputVolatiles MediaMuxerOutputVolatiles = 8;
-    repeated MsgMediaMuxerStreamVolatiles MediaMuxerStreamVolatiles = 9;
-    
-    repeated MsgMediaDemuxerMpegTsVolatiles MediaDemuxerMpegTsVolatiles = 20;
+    repeated MsgMediaDemuxerMpegTsVolatiles MediaDemuxerMpegTsVolatiles = 5;
+	repeated MsgMediaInputStreamVolatiles MediaInputStreamVolatiles = 6;
+	repeated MsgMediaSinkVolatiles MediaSinkVolatiles = 10;
+	repeated MsgMediaEncodingStreamVolatiles MediaEncodingStreamVolatiles = 11;
+    repeated MsgMediaEncodingFifoVolatiles MediaEncodingFifoVolatiles = 12;
+	repeated MsgMediaCopyingStreamVolatiles MediaCopyingStreamVolatiles = 15;
+    repeated MsgMediaMuxerStreamVolatiles MediaMuxerStreamVolatiles = 20;   
+	repeated MsgMediaMuxerOutputVolatiles MediaMuxerOutputVolatiles = 25;
 }

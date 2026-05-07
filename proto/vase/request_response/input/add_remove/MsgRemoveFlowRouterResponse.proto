@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgRemoveFlowRouterResponse {
+    int32 VaseResult = 1; // 1: okay, 2: recall needed, -2: undefined error, -3: license error, -4: parameter error, -5: timeout, ..
+}

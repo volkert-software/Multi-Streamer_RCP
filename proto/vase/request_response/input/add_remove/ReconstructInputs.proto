@@ -22,6 +22,13 @@ message AddInput {
 	} 
 };
 
+message AddFlowRouter {
+	string RouterId = 1;
+
+    map<string, string> AppStateValues = 10;
+};
+
 message ReconstructInputs {
     repeated AddInput AddInputs = 1;
+    repeated AddFlowRouter AddFlowRouters = 2;
 };

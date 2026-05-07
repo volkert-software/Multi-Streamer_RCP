@@ -6,11 +6,12 @@ import "MsgVideoDeviceSetting.proto";
 import "MsgInputDeviceAudioStreamChannelMappings.proto";
 
 message MsgAddDeckLinkDeviceCapturingInput {
-    string DeviceId = 1;
-    int32 VideoConnection = 2;
-    MsgVideoDeviceSetting VideoDeviceSetting = 3;
-    int32 ColorDepth = 4;
-    map<int32, MsgInputDeviceAudioStreamChannelMappings> InputStreamAudioChannelsMappings = 5;
+    string RouterId = 1;
+    string DeviceId = 2;
+    int32 VideoConnection = 3;
+    MsgVideoDeviceSetting VideoDeviceSetting = 4;
+    int32 ColorDepth = 5;
+    map<int32, MsgInputDeviceAudioStreamChannelMappings> InputStreamAudioChannelsMappings = 6;
 
-    map<string, string> AppStateValues = 7;
+    map<string, string> AppStateValues = 10;
 }

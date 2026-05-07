@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgFlowRouterSetInputCondDeactivationOnEOI {
+    string RouterId = 1;
+    string SourceId = 2;
+    bool Mode       = 3;
+}

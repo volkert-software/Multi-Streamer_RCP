@@ -6,7 +6,7 @@ import "MsgMediaMuxerSettings.proto";
 import "MsgMediaEncoderSettings.proto";
 
 message MsgAddFileOutput {
-    string SourceId = 1;
+    string RouterId = 1;
     string Url = 2;
     MsgMediaMuxerSettings MediaMuxerSettings = 3;
     MsgMediaEncoderSettings MediaEncoderSettings = 4;

@@ -77,8 +77,9 @@ message MsgReportSystemVolatiles {
     int64 InputDataRate = 1;
     int64 OutputDataRate = 2;
     float RelativeCpuUsage = 3;
-    int64 MemoryUsage = 4;
-    int32 HandlesUsage = 5;
+    int64 MemoryUsagePhysical = 4;
+    int64 MemoryUsageVirtual = 5;
+    int32 HandlesUsage = 6;
     
     repeated MsgVideoAcceleratorVolatiles VideoAcceleratorVolatiles = 10;
     repeated MsgLogMessage LogMessages = 11;

@@ -5,8 +5,9 @@ package VaseInfraStructure;
 import "MsgMediaDecoderSettings.proto";
 
 message MsgAddUrlInput {
-    string Url = 1;
-    MsgMediaDecoderSettings MediaDecoderSettings = 2;
+    string RouterId = 1;
+    string Url = 2;
+    MsgMediaDecoderSettings MediaDecoderSettings = 3;
 
-    map<string, string> AppStateValues = 7;
+    map<string, string> AppStateValues = 10;
 }

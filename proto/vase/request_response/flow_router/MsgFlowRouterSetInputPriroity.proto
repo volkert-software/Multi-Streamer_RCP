@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package VaseInfraStructure;
+
+message MsgFlowRouterSetInputPriroity {
+    string RouterId = 1;
+    string SourceId = 2;
+    int32 Priority  = 3;
+}

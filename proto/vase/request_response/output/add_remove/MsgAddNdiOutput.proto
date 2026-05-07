@@ -5,7 +5,7 @@ package VaseInfraStructure;
 import "MsgMediaEncoderSettings.proto";
 
 message MsgAddNdiOutput {
-    string SourceId = 1;
+    string RouterId = 1;
     string NdiName = 2;
     MsgMediaEncoderSettings MediaEncoderSettings = 3;
     bool DataForwardingPaused = 4;

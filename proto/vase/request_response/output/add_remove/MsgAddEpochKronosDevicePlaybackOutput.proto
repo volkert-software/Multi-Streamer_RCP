@@ -6,7 +6,7 @@ import "MsgOutputDeviceAudioStreamChannelMappings.proto";
 import "MsgOutputDeviceVideoSetting.proto";
 
 message MsgAddEpochKronosDevicePlaybackOutput {
-    string SourceId = 1;
+    string RouterId = 1;
     string DeviceId = 2;
     int32 VideoStreamId = 3;
     int32 OutputChannel = 4;
