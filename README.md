@@ -114,7 +114,7 @@ Like all streaming products from Volkert Software also Multi-Streamer uses inter
          **********************/
         INPUT_RESET_NETWORK_STATISTICS                 = 0x161
         INPUT_RESET_MPEGTS_STATISTICS                  = 0x162
-        
+
         /**********************
          * SET INPUT ATTRBUTES
          **********************/
@@ -138,6 +138,12 @@ Like all streaming products from Volkert Software also Multi-Streamer uses inter
          **********************/
         ACTIVATE_FLOW_ROUTER_INPUT_SOURCE              = 0x601
         REMOVE_FLOW_ROUTER_INPUT_SOURCE                = 0x603
+
+        /**********************
+         * FLOW ROUTER ATTRBUTES
+         **********************/
+        SET_FLOW_ROUTER_INPUT_PRIORITY                 = 0x611
+        SET_FLOW_ROUTER_INPUT_COND_DEACTIVATION_ON_EOI = 0x612
 
         /**********************
          * ADD OUTPUTS
@@ -175,6 +181,12 @@ Like all streaming products from Volkert Software also Multi-Streamer uses inter
         // <---- response
         PUBLISH_SERVER_PATH_RESPONSE                   = 0x451
         REVOKE_SERVER_PATH_RESPONSE                    = 0x452
+        
+        /**********************
+         * SET SERVER ATTRBUTES
+         **********************/
+        SERVER_SET_MAX_CLIENT_COUNT                    = 0x472
+        SERVER_SET_MAX_CLIENT_COUNT_RESPONSE           = 0x492
         
         /**********************
          * SERVER SESSIONS
